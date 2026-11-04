@@ -1,0 +1,13 @@
+:host { display: block; }
+
+.tabela { min-width: 1000px; }
+
+/* Linha com estoque abaixo do mínimo: fundo avermelhado leve */
+.baixo { background: color-mix(in srgb, var(--color-danger) 3%, white); }
+.baixo:hover { background: color-mix(in srgb, var(--color-danger) 6%, white); }
+
+.categoria { color: var(--color-text-muted); }
+
+.qtd { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.qtd--baixa { color: var(--color-danger); }
+.unidade { margin-left: 4px; font-size: 12px; color: #94a3b8; }

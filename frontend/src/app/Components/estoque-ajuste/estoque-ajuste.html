@@ -1,0 +1,33 @@
+<dialog #dialog class="modal" aria-labelledby="titulo-ajuste">
+  @if (produto(); as p) {
+    <form [formGroup]="form" (ngSubmit)="salvar()" novalidate>
+      <h2 id="titulo-ajuste" class="modal__titulo">Gerenciar estoque</h2>
+
+      <p class="produto">
+        <strong>{{ p.nome }}</strong>
+        <span>{{ p.sku }} · atual: {{ numero(p.quantidade) }} {{ p.unidade }}</span>
+      </p>
+
+      <label class="campo">
+        <span>Movimentação</span>
+        <select class="input" formControlName="movimento">
+          @for (m of movimentos; track m.valor) {
+            <option [value]="m.valor">{{ m.rotulo }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="campo">
+        <span>Quantidade ({{ p.unidade }})</span>
+        <input class="input" type="number" min="0" step="any" formControlName="quantidade" placeholder="0" />
+        @if (invalido()) { <small class="erro">Informe uma quantidade válida.</small> }
+        @if (erroSaida()) { <small class="erro">A saída é maior que o estoque atual.</small> }
+      </label>
+
+      <div class="modal__acoes">
+        <button type="button" class="btn btn--ghost" (click)="fechar()">Cancelar</button>
+        <button type="submit" class="btn btn--primary">Salvar</button>
+      </div>
+    </form>
+  }
+</dialog>

@@ -1,1 +1,120 @@
-<p>estoque works!</p>
+<section class="estoque">
+  <header class="estoque__topo">
+    <app-title
+      titulo="Estoque"
+      subtitulo="Acompanhe produtos, níveis atuais e necessidades de reposição."
+    />
+
+    <div class="estoque__acoes">
+      <label class="campo estoque__busca">
+        <span>Buscar produto</span>
+        <span class="busca">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+          <input
+            #campo
+            class="input"
+            type="search"
+            placeholder="Nome do produto"
+            [value]="busca()"
+            (input)="busca.set(campo.value)"
+          />
+        </span>
+      </label>
+
+      <app-add-button
+        #modal
+        rotulo="Novo produto"
+        titulo="Novo produto"
+        textoSalvar="Salvar produto"
+        (abriu)="resetarForm()"
+        (salvou)="salvar(modal)"
+      >
+        <div class="form" [formGroup]="form">
+          <label class="campo">
+            <span>Nome</span>
+            <input class="input" formControlName="nome" placeholder="Ex.: Cimento CP-II 50kg" />
+            @if (invalido('nome')) { <small class="erro">Informe o nome do produto.</small> }
+          </label>
+
+          <div class="linha">
+            <label class="campo">
+              <span>Código (SKU)</span>
+              <input class="input" formControlName="sku" placeholder="CIM-001" />
+              @if (skuDuplicado()) {
+                <small class="erro">Já existe um produto com este código.</small>
+              } @else if (invalido('sku')) {
+                <small class="erro">Informe o código.</small>
+              }
+            </label>
+
+            <label class="campo">
+              <span>Categoria</span>
+              <select class="input" formControlName="categoria">
+                @for (c of categorias; track c) {
+                  <option [value]="c">{{ c }}</option>
+                }
+              </select>
+            </label>
+          </div>
+
+          <div class="linha">
+            <label class="campo">
+              <span>Unidade</span>
+              <select class="input" formControlName="unidade">
+                @for (u of unidades; track u) {
+                  <option [value]="u">{{ u }}</option>
+                }
+              </select>
+            </label>
+
+            <label class="campo">
+              <span>Quantidade atual</span>
+              <input class="input" type="number" min="0" step="any" formControlName="quantidade" placeholder="0" />
+              @if (invalido('quantidade')) { <small class="erro">Informe a quantidade.</small> }
+            </label>
+          </div>
+
+          <label class="campo">
+            <span>Estoque mínimo</span>
+            <input class="input" type="number" min="0" step="any" formControlName="minimo" placeholder="0" />
+            @if (invalido('minimo')) { <small class="erro">Informe o estoque mínimo.</small> }
+          </label>
+
+          <div class="linha">
+            <label class="campo">
+              <span>Preço de custo (R$)</span>
+              <input class="input" type="number" min="0" step="0.01" formControlName="custo" placeholder="0,00" />
+              @if (invalido('custo')) { <small class="erro">Informe um valor maior que zero.</small> }
+            </label>
+
+            <label class="campo">
+              <span>Preço de venda (R$)</span>
+              <input class="input" type="number" min="0" step="0.01" formControlName="venda" placeholder="0,00" />
+              @if (invalido('venda')) { <small class="erro">Informe um valor maior que zero.</small> }
+            </label>
+          </div>
+        </div>
+      </app-add-button>
+    </div>
+  </header>
+
+  <section class="estoque__lista">
+    <header class="estoque__cabecalho">
+      <h2 class="panel__titulo">Produtos cadastrados</h2>
+      <p class="panel__sub">
+        {{ lista().length }} {{ lista().length === 1 ? 'produto encontrado' : 'produtos encontrados' }}
+      </p>
+    </header>
+
+    <app-estoque-table [produtos]="lista()" (gerenciar)="ajuste.abrir($event)" />
+  </section>
+
+  @if (prioridades().length) {
+    <app-prioridades-compra [itens]="prioridades()" />
+  }
+
+  <app-estoque-ajuste #ajuste (confirmou)="atualizarQuantidade($event)" />
+</section>

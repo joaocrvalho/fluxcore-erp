@@ -11,6 +11,7 @@ import { STATUS_VENDA, TIPO_VENDA, Venda } from '../../Models/venda-model';
 export class Table {
   vendas = input.required<Venda[]>();
   detalhes = output<Venda>();
+  editar = output<Venda>();
 
   readonly tipoInfo = TIPO_VENDA;
   readonly statusInfo = STATUS_VENDA;

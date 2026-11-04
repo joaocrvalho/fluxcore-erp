@@ -1,0 +1,77 @@
+<div class="tabela-wrapper">
+  <table class="tabela">
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Telefone</th>
+        <th scope="col">Documento</th>
+        <th scope="col">Valor em aberto</th>
+        <th scope="col">Ação</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (c of clientes(); track c.id) {
+        <tr>
+          <td>
+            <span class="tabela__principal">{{ c.nome }}</span>
+            <span class="tabela__sub">{{ tipoInfo[c.tipo].rotulo }}</span>
+          </td>
+
+          <td class="numero">{{ telefone(c.telefone) }}</td>
+
+          <td>
+            <span class="numero">{{ documento(c.documento, c.tipo) }}</span>
+            <span class="tabela__sub doc">{{ tipoInfo[c.tipo].documento }}</span>
+          </td>
+
+          <td>
+            <strong
+              class="aberto"
+              [class.aberto--zero]="c.emAberto === 0"
+              [class.aberto--atraso]="c.atrasado"
+            >
+              @if (c.atrasado) {
+                <svg class="alerta" viewBox="0 0 24 24" role="img" aria-label="Pendência em atraso">
+                  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                  <path d="M12 9v4" />
+                  <path d="M12 17h.01" />
+                </svg>
+              }
+              {{ moeda(c.emAberto) }}
+            </strong>
+          </td>
+
+          <td>
+            <div class="acoes">
+              <button type="button" class="btn btn--ghost btn--sm" (click)="detalhes.emit(c)">
+                <svg class="btn__icone" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                Ver detalhes
+              </button>
+
+              <button
+                type="button"
+                class="btn btn--ghost btn--sm"
+                [attr.aria-label]="'Editar ' + c.nome"
+                (click)="editar.emit(c)"
+              >
+                <svg class="btn__icone" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+                Editar
+              </button>
+            </div>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="5" class="tabela__vazio">Nenhum cliente encontrado.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

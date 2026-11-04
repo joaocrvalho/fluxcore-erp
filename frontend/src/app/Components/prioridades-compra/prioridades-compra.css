@@ -1,0 +1,71 @@
+:host { display: block; }
+
+.aviso {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-warning) 30%, white);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-warning) 4%, white);
+}
+
+.aviso__topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+
+.icone-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--color-warning) 35%, white);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-warning);
+}
+.icone-btn:hover { background: color-mix(in srgb, var(--color-warning) 8%, white); }
+.icone-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+.icone-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lista { list-style: none; }
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 14px var(--space-3);
+  border-top: 1px solid color-mix(in srgb, var(--color-warning) 20%, white);
+}
+
+/* A cor da barra e do selo vem do --tone (danger ou warning) */
+.barra { width: 6px; height: 40px; border-radius: 999px; background: var(--tone); }
+
+.nome { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.nome strong { font-weight: 600; }
+
+.detalhe { margin-top: 2px; font-size: 13px; color: var(--color-text-muted); }
+.detalhe strong { color: var(--color-text); }
+
+.btn--aviso {
+  border-color: color-mix(in srgb, var(--color-warning) 35%, white);
+  background: var(--color-surface);
+  color: #b45309;
+  text-decoration: none;
+}
+.btn--aviso:hover { background: color-mix(in srgb, var(--color-warning) 8%, white); }
+
+@media (max-width: 700px) {
+  .item { grid-template-columns: auto 1fr; }
+  .item .btn { grid-column: 2; justify-self: start; }
+}

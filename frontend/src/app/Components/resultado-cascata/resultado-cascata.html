@@ -1,0 +1,87 @@
+<section class="panel">
+  <header class="panel__header--row">
+    <div>
+      <h2 class="panel__titulo">Composição do resultado</h2>
+      <p class="panel__sub">Clique em qualquer barra para ver o detalhamento</p>
+    </div>
+
+    <ul class="legenda" aria-label="Legenda do gráfico">
+      <li><i class="ponto receita"></i> Receita</li>
+      <li><i class="ponto deducao"></i> Deduções</li>
+      <li><i class="ponto subtotal"></i> Subtotais</li>
+      <li><i class="ponto resultado"></i> Resultado</li>
+    </ul>
+  </header>
+
+  <svg
+    class="grafico"
+    [attr.viewBox]="'0 0 ' + vbLargura + ' ' + vbAltura"
+    role="group"
+    aria-label="Gráfico em cascata: da receita de vendas até o lucro líquido"
+  >
+    @for (t of g().ticks; track t.y) {
+      <line class="grade" [attr.x1]="xInicio" [attr.x2]="xFim" [attr.y1]="t.y" [attr.y2]="t.y" />
+      <text class="eixo" [attr.x]="xInicio - 12" [attr.y]="t.y" text-anchor="end" dominant-baseline="middle">
+        {{ t.texto }}
+      </text>
+    }
+
+    @for (b of g().barras; track b.etapa.id) {
+      @if (b.ligacao; as l) {
+        <line class="ligacao" [attr.x1]="l.x1" [attr.x2]="l.x2" [attr.y1]="l.y" [attr.y2]="l.y" />
+      }
+    }
+
+    @for (b of g().barras; track b.etapa.id) {
+      <g
+        class="grupo"
+        [class.selecionada]="selecionadaId() === b.etapa.id"
+        role="button"
+        tabindex="0"
+        [attr.aria-pressed]="selecionadaId() === b.etapa.id"
+        [attr.aria-label]="b.etapa.rotulo + ': ' + b.texto"
+        (click)="alternar(b.etapa.id)"
+        (keydown.enter)="alternar(b.etapa.id)"
+        (keydown.space)="alternar(b.etapa.id); $event.preventDefault()"
+      >
+        <rect
+          class="barra {{ b.classe }}"
+          rx="3"
+          [attr.x]="b.x"
+          [attr.y]="b.y"
+          [attr.width]="b.w"
+          [attr.height]="b.altura"
+        />
+        <text class="valor-barra" text-anchor="middle" [attr.x]="b.cx" [attr.y]="b.textoY">{{ b.texto }}</text>
+        <text class="rotulo" text-anchor="middle" [attr.x]="b.cx" [attr.y]="yRotulo">
+          @for (linha of b.linhas; track $index) {
+            <tspan [attr.x]="b.cx" [attr.dy]="$first ? 0 : 13">{{ linha }}</tspan>
+          }
+        </text>
+      </g>
+    }
+  </svg>
+
+  @if (detalhe(); as d) {
+    <div class="detalhe">
+      <header class="detalhe__topo">
+        <h3>Detalhamento · {{ titulo(d) }}</h3>
+        <button type="button" class="btn btn--ghost btn--sm" (click)="selecionadaId.set(null)">Fechar</button>
+      </header>
+
+      <ul class="detalhe__lista">
+        @for (item of d.detalhes; track item.rotulo) {
+          <li>
+            <span>{{ item.rotulo }}</span>
+            <span class="valor">{{ moeda(item.valor) }}</span>
+          </li>
+        }
+      </ul>
+
+      <div class="detalhe__total">
+        <span>Total</span>
+        <strong>{{ moeda(d.valor) }}</strong>
+      </div>
+    </div>
+  }
+</section>

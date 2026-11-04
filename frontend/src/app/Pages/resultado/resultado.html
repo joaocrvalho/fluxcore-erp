@@ -1,1 +1,33 @@
-<p>resultado works!</p>
+<section class="resultado">
+  <header class="resultado__topo">
+    <app-title
+      titulo="De onde vem seu lucro"
+      subtitulo="Veja como o resultado do período foi calculado, passo a passo."
+    />
+
+    <select
+      #seletor
+      class="input resultado__mes"
+      aria-label="Mês de referência"
+      (change)="mesId.set(seletor.value)"
+    >
+      @for (m of meses; track m.id) {
+        <option [value]="m.id" [selected]="m.id === mesId()">{{ m.rotulo }}</option>
+      }
+    </select>
+  </header>
+
+  <app-resultado-resumo
+    [resultado]="resultado()"
+    [receita]="receita()"
+    [periodo]="mesAtual().rotulo"
+    [variacao]="variacao()"
+  />
+
+  <app-resultado-cascata [etapas]="etapas()" />
+
+  <div class="resultado__listas">
+    <app-despesas-fixas [despesas]="fixas" />
+    <app-impostos-config [impostos]="impostosConfig" [total]="totalImpostos()" />
+  </div>
+</section>

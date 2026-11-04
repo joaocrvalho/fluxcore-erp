@@ -1,1 +1,106 @@
-<p>clientes works!</p>
+<section class="clientes">
+  <header class="clientes__topo">
+    <app-title titulo="Clientes" subtitulo="Contatos e resumo de pendências por cliente." />
+
+    <div class="clientes__acoes">
+      <label class="campo clientes__busca">
+        <span>Buscar cliente</span>
+        <span class="busca">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+          <input
+            #campo
+            class="input"
+            type="search"
+            placeholder="Nome do cliente"
+            [value]="busca()"
+            (input)="busca.set(campo.value)"
+          />
+        </span>
+      </label>
+
+      <app-add-button
+        #modal
+        rotulo="Novo cliente"
+        titulo="Novo cliente"
+        textoSalvar="Salvar cliente"
+        (abriu)="resetarForm()"
+        (salvou)="salvar(modal)"
+      >
+        <ng-container *ngTemplateOutlet="campos" />
+      </app-add-button>
+    </div>
+  </header>
+
+  <section class="clientes__lista">
+    <header class="clientes__cabecalho">
+      <div>
+        <h2 class="panel__titulo">Lista de clientes</h2>
+        <p class="panel__sub">
+          {{ lista().length }} {{ lista().length === 1 ? 'cliente encontrado' : 'clientes encontrados' }}
+        </p>
+      </div>
+
+      <label class="campo clientes__ordem">
+        <span>Ordenar por</span>
+        <select #ordenar class="input" (change)="ordem.set($any(ordenar.value))">
+          @for (o of ordens; track o.valor) {
+            <option [value]="o.valor" [selected]="o.valor === ordem()">{{ o.rotulo }}</option>
+          }
+        </select>
+      </label>
+    </header>
+
+    <app-clientes-table
+      [clientes]="lista()"
+      (detalhes)="detalhes.abrir($event)"
+      (editar)="editar($event, modalEdicao)"
+    />
+  </section>
+
+  <app-cliente-detalhes #detalhes />
+
+  <app-modal-edicao
+    #modalEdicao
+    titulo="Editar cliente"
+    (salvou)="salvarEdicao(modalEdicao)"
+  >
+    <ng-container *ngTemplateOutlet="campos" />
+  </app-modal-edicao>
+</section>
+
+<!-- Campos compartilhados entre "Novo cliente" e "Editar cliente" -->
+<ng-template #campos>
+  <div class="form" [formGroup]="form">
+    <label class="campo">
+      <span>Nome</span>
+      <input class="input" formControlName="nome" placeholder="Nome ou razão social" />
+      @if (nomeInvalido()) { <small class="erro">Informe o nome do cliente.</small> }
+    </label>
+
+    <label class="campo">
+      <span>Tipo de pessoa</span>
+      <select class="input" formControlName="tipo">
+        @for (t of tipos; track t) {
+          <option [value]="t">{{ tipoInfo[t].rotulo }}</option>
+        }
+      </select>
+    </label>
+
+    <div class="linha">
+      <label class="campo">
+        <span>Documento (CPF ou CNPJ)</span>
+        <input class="input" formControlName="documento" inputmode="numeric" placeholder="Somente números" />
+        @if (erroDocumento()) { <small class="erro">{{ erroDocumento() }}</small> }
+      </label>
+
+      <label class="campo">
+        <span>Telefone</span>
+        <input class="input" formControlName="telefone" inputmode="tel" placeholder="(11) 90000-0000" />
+        @if (erroTelefone()) { <small class="erro">{{ erroTelefone() }}</small> }
+      </label>
+    </div>
+  </div>
+</ng-template>

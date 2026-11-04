@@ -1,0 +1,14 @@
+:host { display: block; }
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px var(--space-3);
+  font-size: 14px;
+}
+
+.marca { width: 6px; height: 6px; border-radius: 50%; background: #f59e0b; }
+.dia { font-size: 12px; color: #94a3b8; }
+.valor { min-width: 88px; text-align: right; font-variant-numeric: tabular-nums; }

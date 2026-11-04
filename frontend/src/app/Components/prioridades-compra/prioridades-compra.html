@@ -1,0 +1,44 @@
+<section class="aviso">
+  <header class="aviso__topo">
+    <div>
+      <h2 class="panel__titulo">Prioridades de compra</h2>
+      <p class="panel__sub">Produtos ordenados pelo maior déficit de estoque</p>
+    </div>
+
+    <a class="icone-btn" routerLink="/compras" aria-label="Ir para o módulo Compras">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 4h2l2 11h10l2-8H7" />
+        <circle cx="9" cy="20" r="1" />
+        <circle cx="17" cy="20" r="1" />
+      </svg>
+    </a>
+  </header>
+
+  <ul class="lista">
+    @for (item of itens(); track item.produto.id) {
+      <li class="item tone-{{ nivelInfo[item.nivel].tom }}">
+        <i class="barra" aria-hidden="true"></i>
+
+        <div class="texto">
+          <div class="nome">
+            <strong>{{ item.produto.nome }}</strong>
+            <span class="badge">{{ nivelInfo[item.nivel].rotulo }}</span>
+          </div>
+          <p class="detalhe">
+            <strong>{{ numero(item.produto.quantidade) }} {{ item.produto.unidade }}</strong>
+            em estoque · mínimo de {{ numero(item.produto.minimo) }}
+          </p>
+        </div>
+
+        <a class="btn btn--sm btn--aviso" routerLink="/compras">
+          <svg class="btn__icone" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 4h2l2 11h10l2-8H7" />
+            <circle cx="9" cy="20" r="1" />
+            <circle cx="17" cy="20" r="1" />
+          </svg>
+          Ver no módulo Compras
+        </a>
+      </li>
+    }
+  </ul>
+</section>

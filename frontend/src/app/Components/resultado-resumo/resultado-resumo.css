@@ -1,0 +1,36 @@
+:host { display: block; }
+
+/* A cor (verde ou vermelho) vem de o resultado ser positivo ou negativo */
+.resumo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--tone) 30%, white);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--tone) 8%, white);
+}
+
+.resumo__principal { display: flex; flex-direction: column; gap: 4px; }
+.resumo__rotulo, .resumo__nota { font-size: 14px; font-weight: 500; color: var(--tone); }
+.resumo__nota { font-size: 13px; font-weight: 400; }
+
+.resumo__valor {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--tone);
+}
+
+.resumo__metricas { display: flex; gap: var(--space-4); }
+.metrica { text-align: center; }
+
+dt { font-size: 12px; color: var(--color-text-muted); }
+dd { margin-top: 4px; font-size: 24px; font-weight: 700; }
+
+.bom { color: var(--color-success); }
+.ruim { color: var(--color-danger); }
+.neutro { color: var(--color-text-muted); }

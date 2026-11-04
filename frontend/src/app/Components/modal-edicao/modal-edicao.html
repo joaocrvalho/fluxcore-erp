@@ -1,0 +1,12 @@
+<dialog #dialog class="modal" aria-labelledby="titulo-edicao">
+  <form (submit)="enviar($event)" novalidate>
+    <h2 id="titulo-edicao" class="modal__titulo">{{ titulo() }}</h2>
+
+    <ng-content />
+
+    <div class="modal__acoes">
+      <button type="button" class="btn btn--ghost" (click)="fechar()">Cancelar</button>
+      <button type="submit" class="btn btn--primary">{{ textoSalvar() }}</button>
+    </div>
+  </form>
+</dialog>

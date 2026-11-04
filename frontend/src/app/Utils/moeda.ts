@@ -12,3 +12,8 @@ export function moeda(valor: number): string {
 export function moedaMil(valor: number): string {
   return `R$ ${formatoMil.format(Math.abs(valor) / 1000)} mil`;
 }
+
+// 6 -> '6,0%'
+export function percentual(valor: number): string {
+  return `${formatoMil.format(valor)}%`;
+}

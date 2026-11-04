@@ -27,13 +27,28 @@
             <span class="badge tone-{{ statusInfo[venda.status].tom }}">{{ statusInfo[venda.status].rotulo }}</span>
           </td>
           <td>
-            <button type="button" class="btn btn--ghost btn--sm" (click)="detalhes.emit(venda)">
-              <svg class="btn__icone" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              Ver detalhes
-            </button>
+            <div class="acoes">
+              <button type="button" class="btn btn--ghost btn--sm" (click)="detalhes.emit(venda)">
+                <svg class="btn__icone" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                Ver detalhes
+              </button>
+
+              <button
+                type="button"
+                class="btn btn--ghost btn--sm"
+                [attr.aria-label]="'Editar venda #' + venda.id"
+                (click)="editar.emit(venda)"
+              >
+                <svg class="btn__icone" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+                Editar
+              </button>
+            </div>
           </td>
         </tr>
       } @empty {

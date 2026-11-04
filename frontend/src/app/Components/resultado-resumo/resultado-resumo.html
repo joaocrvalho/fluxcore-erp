@@ -1,0 +1,26 @@
+<section [class]="'resumo tone-' + (positivo() ? 'success' : 'danger')">
+  <div class="resumo__principal">
+    <span class="resumo__rotulo">Resultado do período</span>
+    <strong class="resumo__valor">{{ resultadoTexto() }}</strong>
+    <span class="resumo__nota">
+      {{ positivo() ? 'Lucro' : 'Prejuízo' }} líquido em {{ periodo() }}
+    </span>
+  </div>
+
+  <dl class="resumo__metricas">
+    <div class="metrica">
+      <dt>Margem líquida</dt>
+      <dd [class.bom]="margem() >= 0" [class.ruim]="margem() < 0">{{ margemTexto() }}</dd>
+    </div>
+    <div class="metrica">
+      <dt>Receita bruta</dt>
+      <dd>{{ receitaTexto() }}</dd>
+    </div>
+    <div class="metrica">
+      <dt>vs. mês anterior</dt>
+      <dd [class.bom]="variacao() !== null && variacaoBoa()"
+          [class.ruim]="variacao() !== null && !variacaoBoa()"
+          [class.neutro]="variacao() === null">{{ variacaoTexto() }}</dd>
+    </div>
+  </dl>
+</section>

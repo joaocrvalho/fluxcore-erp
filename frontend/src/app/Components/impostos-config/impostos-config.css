@@ -1,0 +1,31 @@
+:host { display: block; }
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px var(--space-3);
+}
+
+.icone {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid color-mix(in srgb, var(--color-warning) 35%, white);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--color-warning) 10%, white);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-warning);
+}
+
+.texto { display: flex; flex-direction: column; gap: 2px; }
+.texto strong { font-size: 14px; font-weight: 500; }
+.texto span { font-size: 12px; color: var(--color-text-muted); }
+
+.aliquota { font-size: 14px; font-variant-numeric: tabular-nums; }
+
+.status { width: 6px; height: 6px; border-radius: 50%; background: var(--color-success); }
+.status.inativo { background: #cbd5e1; }

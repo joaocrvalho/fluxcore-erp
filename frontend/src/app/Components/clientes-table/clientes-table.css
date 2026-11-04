@@ -1,0 +1,28 @@
+:host { display: block; }
+
+.tabela { min-width: 820px; }
+
+.numero { font-size: 13px; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.doc { font-size: 11px; }
+
+/* Laranja por padrão (pendência no prazo), cinza se zerado e vermelho se atrasado */
+.aberto {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-warning);
+}
+.aberto--zero { color: #94a3b8; }
+.aberto--atraso { color: var(--color-danger); }
+
+.alerta {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

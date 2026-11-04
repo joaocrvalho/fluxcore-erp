@@ -1,0 +1,51 @@
+<dialog #dialog class="modal" aria-labelledby="titulo-cliente">
+  @if (cliente(); as c) {
+    <header class="topo">
+      <div>
+        <h2 id="titulo-cliente" class="modal__titulo">{{ c.nome }}</h2>
+        <p class="sub">{{ tipoInfo[c.tipo].rotulo }}</p>
+      </div>
+      <button type="button" class="btn btn--ghost btn--sm" (click)="fechar()">Fechar</button>
+    </header>
+
+    <dl class="dados">
+      <div>
+        <dt>Telefone</dt>
+        <dd>{{ telefone(c.telefone) }}</dd>
+      </div>
+      <div>
+        <dt>{{ tipoInfo[c.tipo].documento }}</dt>
+        <dd>{{ documento(c.documento, c.tipo) }}</dd>
+      </div>
+    </dl>
+
+    <h3 class="secao">Pendências</h3>
+
+    @if (c.pendencias.length) {
+      <ul class="pendencias">
+        @for (p of c.pendencias; track $index) {
+          <li>
+            <div>
+              <span>{{ p.descricao }}</span>
+              <small [class.atraso]="p.atrasada">
+                @if (p.vencimento) {
+                  {{ p.atrasada ? 'Venceu em' : 'Vence em' }} {{ p.vencimento | date: 'dd/MM/yyyy' }}
+                } @else {
+                  Sem prazo
+                }
+              </small>
+            </div>
+            <strong>{{ moeda(p.valor) }}</strong>
+          </li>
+        }
+      </ul>
+
+      <div class="total">
+        <span>Total em aberto</span>
+        <strong [class.atraso]="c.atrasado">{{ moeda(c.emAberto) }}</strong>
+      </div>
+    } @else {
+      <p class="vazio">Nenhuma pendência em aberto.</p>
+    }
+  }
+</dialog>
